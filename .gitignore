@@ -1,0 +1,30 @@
+# Virtual Environments
+.venv/
+venv/
+env/
+cs_venv/
+
+# Python Cache
+*.pyc
+*.pyo
+__pycache__/
+
+# Local Data
+data/stash.json
+
+# Environment Variables
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# IDEs
+.idea/
+
+# Logs
+*.log
+
+# Temporary Files
+*.tmp
+
