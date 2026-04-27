@@ -11,11 +11,33 @@ class CrateManager:
 
     def __init__(self):
         """Initialize variables."""
-        ...  # Represents a placeholder.
 
-    def display_music_genre_selection_menu(self):
+
+    def display_crate_stash_selection_menu(self):
         """Display a neatly formatted menu for the user."""
-        ...
+        print(f"\nWelcome to Crate Stash© - Stash & Go")
+        print(
+              "\n|   Crate Stash© Menu   |".center(35),  # Center text for neat.
+              "\n1. Stash a track to crate"
+              "\n2. Trash a track from crate"
+              "\n3. View Crate Stash"
+              "\n4. Quit"
+        )
+
+    def user_selection_menu_choice(self):
+        """Return the user's menu choice in the form of an integer."""
+        while True:
+            try:
+                choice = int(input("\nSelect a menu option (1-4): "))
+            except ValueError:
+                print("Please enter a valid number...")
+                continue
+
+            if choice < 1 or choice > 4:
+                print("Invalid input! Please try again...")
+
+            else:
+                return choice
 
     def select_music_genre(self):
         """
@@ -24,4 +46,23 @@ class CrateManager:
         ...
 
     def add_track_to_crate(self):
-        """Prompt user to enter a track to a crate."""
+        """Add a track data to .json."""
+
+
+    def remove_track_from_crate(self):
+        """Remove track data from .json."""
+
+
+    def display_crate_stash(self):
+        """
+        Print a neatly formatted display of stashed tracks within a crate.
+        """
+
+
+
+
+
+crate1 = CrateManager()
+
+crate1.display_crate_stash_selection_menu()
+crate1.user_selection_menu_choice()
