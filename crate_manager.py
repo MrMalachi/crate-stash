@@ -5,6 +5,8 @@ on a whim, and then later resort to that crate of stashed tracks to download
 to their DJ playlist(s) for later use so they do not forget
 """
 
+import json
+
 
 class CrateManager:
     """Manage a crate of tracks for later download and DJ use."""
@@ -39,14 +41,28 @@ class CrateManager:
             else:
                 return choice
 
-    def select_music_genre(self):
+    def open_crate_stash_file(self):
         """
-        Prompt user to select a genre of music from the given list & return.
+        Load crate stash data.
+        If file does not exist or is invalid, create/reset
         """
-        ...
+        try:
+            with open("crate.json", "r", encoding="utf-8") as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            print("File not found! Creating it now...")
+            data = {}
+
+            # Create the file and write empty JSON
+            with open("crate.json", "w", encoding="utf-8") as file:
+                json.dump(data, file, indent=4)
+
+        return data
 
     def add_track_to_crate(self):
         """Add a track data to .json."""
+
+
 
 
     def remove_track_from_crate(self):
@@ -58,11 +74,35 @@ class CrateManager:
         Print a neatly formatted display of stashed tracks within a crate.
         """
 
+    def exit_crate_stash(self):
+        """End the program."""
+
+    def select_music_genre(self):
+        """
+        Prompt user to select a genre of music from the given list & return.
+        """
+        ...
+
+    def run_crate_manager(self):
+        """Orchestrator method."""
+        self.display_crate_stash_selection_menu()
+        choice = self.user_selection_menu_choice()
+
+        if choice == 1:
+            self.open_crate_stash_file()
+            self.add_track_to_crate()
+        elif choice == 2:
+            self.open_crate_stash_file()
+            self.remove_track_from_crate()
+        elif choice == 3:
+            self.display_crate_stash()
+        else:
+            self.exit_crate_stash()
+
 
 
 
 
 crate1 = CrateManager()
 
-crate1.display_crate_stash_selection_menu()
-crate1.user_selection_menu_choice()
+crate1.run_crate_manager()
