@@ -1,6 +1,6 @@
 # CRATE-STASH NOTES©
 
-# Learning
+# Learning Lessons
 
 ## Parsing
 * There are 3 different methods to parse data (json) in Python:
@@ -16,11 +16,19 @@
   * `"r"` - Read (default)
   * `"w"` - Write (overwrites file)
   * `"a"` - Append (adds to file)
+    * Tends to easily break JSON structure because a JSON fil is supposed to contain one valid JSON structure 
+      (a single dictionary/object)
   * `"x"` - Create (fails if file exists)
 * `with open` automatically closes JSON file by calling `close()` so that data is not lost
 
 
-### `json.dumps method`
+### `json.dump` vs. `json.dumps method`
 * Next, writing to a .json file, the data needs to be **serialized** into a JSON-formatted string so it can be stored
   * To do this, it is best practice to use the `json.dumps` method
-### **
+* `json.dump()` directly saves data to a local file without storing the entire formatted string in a system's RAM, 
+  therefore, being more memory-efficient for large data sets. It already includes `file.write()`!
+* `json.dumps`, the "s" stands for __string__ and converts your data into a JSON-formatted string in memory. This method
+  requires `file.write()` if you eventually want to save it to disk
+* Why bother using `json.dumps()`?!:
+  * Because it is essential when you need the JSON data as a string in memory rather than a physical file on your 
+    hard-drive
