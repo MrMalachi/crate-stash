@@ -10,7 +10,7 @@ cs_venv/
 __pycache__/
 
 # Local Data
-data/stash.json
+data/
 
 # Environment Variables
 .env
