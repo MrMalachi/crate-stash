@@ -6,6 +6,10 @@ to their DJ playlist(s) for later use so they do not forget
 """
 
 import json
+from json import JSONDecodeError
+from pathlib import Path
+
+path = Path("data/crate.json")
 
 
 class CrateManager:
@@ -41,28 +45,40 @@ class CrateManager:
             else:
                 return choice
 
-    def open_crate_stash_file(self):
+    def load_crate_stash_file(self):
         """
         Load crate stash data.
-        If file does not exist or is invalid, create/reset
+        If file does not exist or is invalid, create/reset.
         """
         try:
-            with open("crate.json", "r", encoding="utf-8") as file:
+            with open(path, "r", encoding="utf-8") as file:
                 data = json.load(file)
         except FileNotFoundError:
             print("File not found! Creating it now...")
             data = {}
 
-            # Create the file and write empty JSON
-            with open("crate.json", "w", encoding="utf-8") as file:
+            # Create the file and write empty JSON.
+            with open(path, "w", encoding="utf-8") as file:
                 json.dump(data, file, indent=4)
+        except JSONDecodeError as e:
+            print(f"File is corrupt! Error at Line {e.lineno}, Column {e.colno}")
 
-        return data
+        else:
+            return data
 
-    def add_track_to_crate(self):
-        """Add a track data to .json."""
+    def get_track_info(self):
+        """Prompt user to enter info. about track and return values."""
+        artist = input("\nEnter artist name: ").strip()
+        title = input("Enter title of track: ").strip()
 
+        track = {"artist": artist, "title": title}
 
+        return track
+
+    def save_track_to_crate(self, data):
+        """(Add track) write data to .json file."""
+        with open(path, "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4)
 
 
     def remove_track_from_crate(self):
@@ -85,19 +101,28 @@ class CrateManager:
 
     def run_crate_manager(self):
         """Orchestrator method."""
-        self.display_crate_stash_selection_menu()
-        choice = self.user_selection_menu_choice()
+        while True:
+            self.display_crate_stash_selection_menu()
+            choice = self.user_selection_menu_choice()
 
-        if choice == 1:
-            self.open_crate_stash_file()
-            self.add_track_to_crate()
-        elif choice == 2:
-            self.open_crate_stash_file()
-            self.remove_track_from_crate()
-        elif choice == 3:
-            self.display_crate_stash()
-        else:
-            self.exit_crate_stash()
+            if choice == 1:
+                data = self.load_crate_stash_file()
+
+                if "tracks" not in data:
+                    data["tracks"] = []
+
+                new_track = self.get_track_info()
+                data["tracks"].append(new_track)
+
+                self.save_track_to_crate(data)
+            elif choice == 2:
+                self.load_crate_stash_file()
+                self.remove_track_from_crate()
+            elif choice == 3:
+                self.display_crate_stash()
+            else:
+                self.exit_crate_stash()
+                break
 
 
 
