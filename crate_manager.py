@@ -83,12 +83,20 @@ class CrateManager:
 
     def remove_track_from_crate(self):
         """Remove track data from .json."""
-
+        print("\nWhich track would you like to throwaway?")
+        self.display_crate_stash()
 
     def display_crate_stash(self):
         """
         Print a neatly formatted display of stashed tracks within a crate.
         """
+        with open(path, "r", encoding="utf-8") as file:
+            data = json.load(file)
+
+        for track in data["tracks"]:
+            artist = track["artist"]
+            title = track["title"]
+            print(f"{artist} - {title}")
 
     def exit_crate_stash(self):
         """End the program."""
