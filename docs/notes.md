@@ -22,7 +22,7 @@
 * `with open` automatically closes JSON file by calling `close()` so that data is not lost
 
 
-### `json.dump` vs. `json.dumps method`
+### *`json.dump` vs. `json.dumps`*
 * Next, writing to a .json file, the data needs to be **serialized** into a JSON-formatted string so it can be stored
   * To do this, it is best practice to use the `json.dumps` method
 * `json.dump()` directly saves data to a local file without storing the entire formatted string in a system's RAM, 
@@ -32,3 +32,20 @@
 * Why bother using `json.dumps()`?!:
   * Because it is essential when you need the JSON data as a string in memory rather than a physical file on your 
     hard-drive
+
+### *`json.load` vs `json.loads`*
+* The `json.load()` function accepts a **file object** (the pointer created by `open`) and parses the JSON content 
+  directly into a native Python object, such as a dictionary or a list
+  * Use `json.load` if the object you need Python to read the content directly from a file on your disk
+* The `json.loads()` (load string) is used when the JSON data is already loaded into your code's memory as text
+  * Use if the data is already a string inside quotes ("..."), like data that comes from a network request
+
+### *Expression Evaluation & Discarding*
+* In programming, any line of code that produces a result is an **expression**
+  * When you call `json.load(file)`, Python runs the function and computes a result
+  * BUT, if you do not assign that result to a variable or pass it to another function, the term for what happens is
+    **discarding the return value**. The data is momentarily generated in memory, but because there is no reference to
+    it, Python instantly discards it
+
+### *Garbage Collection*
+* Core memory management system
