@@ -2,6 +2,10 @@
 
 # Learning Lessons
 
+## Glossary
+* **Refactor** - improve code structure without changing behavior
+* 
+
 ## Parsing
 * There are 3 different methods to parse data (json) in Python:
   1. `Path.exists()`
