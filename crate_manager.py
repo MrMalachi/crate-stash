@@ -148,7 +148,10 @@ class CrateManager:
                 self.save_track_to_crate(data)
             elif choice == 2:
                 self.load_crate_stash_file()
+                self.display_crate_stash()
+                self.get_track_to_remove()
                 self.remove_track_from_crate()
+                break
             elif choice == 3:
                 self.display_crate_stash()
             else:
