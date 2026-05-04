@@ -80,26 +80,49 @@ class CrateManager:
         with open(path, "w", encoding="utf-8") as file:
             json.dump(data, file, indent=4)
 
+    def get_track_to_remove(self):
+        """Prompts user to enter an integer, validates, and returns it."""
+        while True:
+            try:
+                choice = int(input(
+                    "\nWhich track would you like to trash 🗑️ (enter a number): "
+                ))
+            except ValueError:
+                print("Please enter a valid number...")
+                continue
+
+            if choice <= 0:
+                print("Invalid input! Please try again...")
+
+            else:
+                return choice
 
     def remove_track_from_crate(self):
-        """Remove track data from .json."""
-        print("\nWhich track would you like to throwaway?")
-        self.display_crate_stash()
+        """
+        Load data, pop the selected track out of list in memory using the
+        validated index, and save the updated data back to the JSON file.
+        """
+        self.load_crate_stash_file()
+
+
 
     def display_crate_stash(self):
         """
         Print a neatly formatted display of stashed tracks within a crate.
         """
+        print("\n--- Crate Stash© ---")
+
         with open(path, "r", encoding="utf-8") as file:
             data = json.load(file)
 
-        for track in data["tracks"]:
+        for number, track in enumerate(data["tracks"], start=1):
             artist = track["artist"]
             title = track["title"]
-            print(f"{artist} - {title}")
+            print(f"{number}. {artist} - {title}")
 
     def exit_crate_stash(self):
         """End the program."""
+
 
     def select_music_genre(self):
         """
