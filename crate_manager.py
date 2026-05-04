@@ -132,10 +132,10 @@ class CrateManager:
 
     def run_crate_manager(self):
         """Orchestrator method."""
-        while True:
-            self.display_crate_stash_selection_menu()
-            choice = self.user_selection_menu_choice()
+        self.display_crate_stash_selection_menu()
+        choice = self.user_selection_menu_choice()
 
+        while True:
             if choice == 1:
                 data = self.load_crate_stash_file()
 
