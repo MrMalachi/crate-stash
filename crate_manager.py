@@ -21,7 +21,7 @@ class CrateManager:
 
     def display_crate_stash_selection_menu(self):
         """Display a neatly formatted menu for the user."""
-        print(f"\nWelcome to Crate Stash© - Stash & Go")
+        print(f"\nWelcome to Crate Stash© - Stash & Go 💿")
         print(
               "\n|   Crate Stash© Menu   |".center(35),  # Center text for neat.
               "\n1. Stash a track to crate"
@@ -30,7 +30,7 @@ class CrateManager:
               "\n4. Quit"
         )
 
-    def user_selection_menu_choice(self):
+    def selection_menu_choice(self):
         """Return the user's menu choice in the form of an integer."""
         while True:
             try:
@@ -75,17 +75,18 @@ class CrateManager:
 
         return track
 
-    def save_track_to_crate(self, data):
+    def save_crate_stash_file(self, data):
         """(Add track) write data to .json file."""
         with open(path, "w", encoding="utf-8") as file:
             json.dump(data, file, indent=4)
 
-    def get_track_to_remove(self):
+    def get_track_to_remove(self) -> int:
         """Prompts user to enter an integer, validates, and returns it."""
         while True:
             try:
                 choice = int(input(
-                    "\nWhich track would you like to trash 🗑️ (enter a number): "
+                    "\nWhich track would you like to trash 🗑?"
+                    "\nEnter a corresponding number: "
                 ))
             except ValueError:
                 print("Please enter a valid number...")
@@ -97,14 +98,19 @@ class CrateManager:
             else:
                 return choice
 
-    def remove_track_from_crate(self):
+    def remove_track_from_crate(self, corresponding_track_num: int):
         """
         Load data, pop the selected track out of list in memory using the
         validated index, and save the updated data back to the JSON file.
         """
-        self.load_crate_stash_file()
+        data = self.load_crate_stash_file()
 
+        track_index = corresponding_track_num - 1
+        removed_track = data["tracks"].pop(track_index)
 
+        self.save_crate_stash_file(data)
+
+        print(f"\nTrashed🚮: {removed_track["artist"]} - {removed_track["title"]}")
 
     def display_crate_stash(self):
         """
@@ -122,20 +128,14 @@ class CrateManager:
 
     def exit_crate_stash(self):
         """End the program."""
-
-
-    def select_music_genre(self):
-        """
-        Prompt user to select a genre of music from the given list & return.
-        """
-        ...
+        print(f"\nThanks for using Crate Stash©. Stash & Go 💿")
 
     def run_crate_manager(self):
         """Orchestrator method."""
-        self.display_crate_stash_selection_menu()
-        choice = self.user_selection_menu_choice()
-
         while True:
+            self.display_crate_stash_selection_menu()
+            choice = self.selection_menu_choice()
+
             if choice == 1:
                 data = self.load_crate_stash_file()
 
@@ -145,22 +145,18 @@ class CrateManager:
                 new_track = self.get_track_info()
                 data["tracks"].append(new_track)
 
-                self.save_track_to_crate(data)
+                self.save_crate_stash_file(data)
+
             elif choice == 2:
                 self.load_crate_stash_file()
                 self.display_crate_stash()
-                self.get_track_to_remove()
-                self.remove_track_from_crate()
-                break
+                corresponding_track_num = self.get_track_to_remove()
+                self.remove_track_from_crate(corresponding_track_num)
             elif choice == 3:
                 self.display_crate_stash()
-            else:
+            elif choice == 4:
                 self.exit_crate_stash()
                 break
-
-
-
-
 
 crate1 = CrateManager()
 
